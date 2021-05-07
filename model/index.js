@@ -3,19 +3,18 @@ const path = require('path')
 // const contacts = require('./contacts.json')
 
 const { v4: uuidv4 } = require('uuid')
-const contactsPath = path.join(__dirname, '', 'contacts.json')
+const contactsPath = path.join(__dirname, 'contacts.json')
 
 const listContacts = async () => {
   try {
     const response = await fs.readFile(contactsPath)
     let contacts = JSON.parse(response)
-    // console.log(contacts)
     return contacts
   } catch (err) {
     console.error(err)
   }
 }
-// listContacts()
+
 const getContactById = async (contactId) => {
   try {
     const contacts = await listContacts()
@@ -28,7 +27,6 @@ const getContactById = async (contactId) => {
     console.error(error)
   }
 }
-// getContactById(2)
 
 const removeContact = async (contactId) => {
   try {
@@ -44,7 +42,6 @@ const removeContact = async (contactId) => {
     console.error(error)
   }
 }
-// removeContact(3)
 const addContact = async (body) => {
   try {
     if (Object.keys(body).length !== 0) {
@@ -62,20 +59,16 @@ const addContact = async (body) => {
     console.error(error)
   }
 }
-// addContact('Helen', '02222')
+
 const updateContact = async (contactId, body) => {
   try {
     const contacts = await listContacts()
     const contactToUpdate = await getContactById(contactId)
-
     const updatedContact = Object.assign(contactToUpdate, body)
-
     const сontactsList = contacts.filter(
       ({ id }) => id.toString() !== contactId.toString()
     )
-
     const updatedContactList = [...сontactsList, updatedContact]
-
     await fs.writeFile(
       contactsPath,
       JSON.stringify(updatedContactList, null, 2)
@@ -86,10 +79,6 @@ const updateContact = async (contactId, body) => {
     console.error(error)
   }
 }
-// updateContact(11, {
-//   email: 'lena1994@gmail.com',
-//   phone: '(097) 360-21-50',
-// })
 
 module.exports = {
   listContacts,

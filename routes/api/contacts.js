@@ -8,9 +8,12 @@ const {
   addContact,
   updateContact,
 } = require('../../model/index')
+const {
+  validateCreateContact,
+  validateUpdateContact,
+} = require('../../validation/validate-contacts')
 
 router.get('/', async (req, res, next) => {
-  // res.json({ message: 'template message' })
   try {
     const contacts = await listContacts()
     res.status(HttpCode.OK).json({
@@ -46,10 +49,9 @@ router.get('/:contactId', async (req, res, next) => {
   }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', validateCreateContact, async (req, res, next) => {
   try {
     const contact = await addContact(req.body)
-    // console.log(contact)
     if (contact) {
       return res.status(HttpCode.CREATED).json({
         status: 'success',
@@ -89,7 +91,7 @@ router.delete('/:contactId', async (req, res, next) => {
   }
 })
 
-router.patch('/:contactId', async (req, res, next) => {
+router.patch('/:contactId', validateUpdateContact, async (req, res, next) => {
   try {
     const contact = await updateContact(req.params.contactId, req.body)
     if (contact) {
