@@ -1,12 +1,4 @@
-// const db = require('./db')
-// const { ObjectID } = require('mongodb')
 const Contacts = require('../schemas/contacts')
-
-// const getCollection = async (db, name) => {
-//   const client = await db
-//   const collection = await client.db().collection(name)
-//   return collection
-// }
 
 const listContacts = async () => {
   try {
@@ -61,10 +53,24 @@ const updateContact = async (contactId, body) => {
   }
 }
 
+const updateStatusContact = async (contactId, body) => {
+  try {
+    const updatedContact = await Contacts.findByIdAndUpdate(
+      { _id: contactId },
+      { ...body },
+      { new: true }
+    )
+    return updatedContact
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 module.exports = {
   listContacts,
   getContactById,
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 }

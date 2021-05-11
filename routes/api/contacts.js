@@ -11,6 +11,7 @@ const {
 const {
   validateCreateContact,
   validateUpdateContact,
+  validateUpdateStatus,
 } = require('../../validation/validate-contacts')
 
 router.get('/', async (req, res, next) => {
@@ -111,5 +112,41 @@ router.patch('/:contactId', validateUpdateContact, async (req, res, next) => {
     next(e)
   }
 })
+
+router.patch(
+  '/:contactId/favorite',
+  validateUpdateStatus,
+  async (req, res, next) => {
+    if (Object.keys(req.body).length !== 0) {
+      try {
+        const contact = await updateStatusContact(
+          req.params.contactId,
+          req.body
+        )
+        if (contact) {
+          return res.status(HttpCode.OK).json({
+            status: 'success',
+            code: HttpCode.OK,
+            data: { contact },
+          })
+        } else {
+          return next({
+            status: HttpCode.NOT_FOUND,
+            message: 'Not found',
+            data: 'Not found',
+          })
+        }
+      } catch (e) {
+        next(e)
+      }
+    } else {
+      return next({
+        status: HttpCode.BAD_REQUEST,
+        message: 'missing field favorite',
+        data: 'missing field favorite',
+      })
+    }
+  }
+)
 
 module.exports = router
