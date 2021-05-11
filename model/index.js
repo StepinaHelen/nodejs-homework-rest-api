@@ -1,16 +1,16 @@
-const db = require('./db')
-const { ObjectID } = require('mongodb')
+// const db = require('./db')
+// const { ObjectID } = require('mongodb')
+const Contacts = require('../schemas/contacts')
 
-const getCollection = async (db, name) => {
-  const client = await db
-  const collection = await client.db().collection(name)
-  return collection
-}
+// const getCollection = async (db, name) => {
+//   const client = await db
+//   const collection = await client.db().collection(name)
+//   return collection
+// }
 
 const listContacts = async () => {
   try {
-    const collection = await getCollection(db, 'contacts')
-    const contacts = collection.find({}).toArray()
+    const contacts = Contacts.find({})
     return contacts
   } catch (err) {
     console.error(err)
@@ -19,10 +19,9 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   try {
-    const collection = await getCollection(db, 'contacts')
-    const [contacts] = await collection
-      .find({ _id: new ObjectID(contactId) })
-      .toArray()
+    const contacts = await Contacts.findOne({
+      _id: contactId,
+    })
     return contacts
   } catch (error) {
     console.error(error)
@@ -31,10 +30,8 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   try {
-    const collection = await getCollection(db, 'contacts')
-
-    const { value: deletedContact } = await collection.findOneAndDelete({
-      _id: new ObjectID(contactId),
+    const deletedContact = await Contacts.findByIdAndDelete({
+      _id: contactId,
     })
 
     return deletedContact
@@ -44,17 +41,8 @@ const removeContact = async (contactId) => {
 }
 const addContact = async (body) => {
   try {
-    const collection = await getCollection(db, 'contacts')
-    // if (Object.keys(body).length !== 0) {
-    let contact = {
-      ...body,
-    }
-    const {
-      ops: [newContact],
-    } = await collection.insertOne(contact)
-
+    const newContact = await Contacts.create(body)
     return newContact
-    // } else return
   } catch (error) {
     console.error(error)
   }
@@ -62,13 +50,10 @@ const addContact = async (body) => {
 
 const updateContact = async (contactId, body) => {
   try {
-    const collection = await getCollection(db, 'contacts')
-    const { value: updatedContact } = await collection.findOneAndUpdate(
-      {
-        _id: new ObjectID(contactId),
-      },
-      { $set: body },
-      { returnOriginal: false }
+    const updatedContact = await Contacts.findByIdAndUpdate(
+      { _id: contactId },
+      { ...body },
+      { new: true }
     )
     return updatedContact
   } catch (error) {
