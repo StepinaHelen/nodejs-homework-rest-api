@@ -17,9 +17,6 @@ app.use('/api/contacts', contactsRouter)
 
 // Обработчики ошибок:
 
-// app.use((req, res) => {
-//   res.status(404).json({ message: 'Not found' })
-// })
 app.use((req, res, next) => {
   res.status(HttpCode.NOT_FOUND).json({
     status: 'error',
@@ -28,10 +25,6 @@ app.use((req, res, next) => {
     data: 'Not found', //можно data не писать
   })
 })
-
-// app.use((err, req, res, next) => {
-//   res.status(500).json({ message: err.message })
-// })
 
 app.use((err, req, res, next) => {
   // проверяем есть ли статус
