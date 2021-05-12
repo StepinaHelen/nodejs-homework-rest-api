@@ -11,9 +11,7 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   try {
-    const contacts = await Contacts.findOne({
-      _id: contactId,
-    })
+    const contacts = await Contacts.findById(contactId)
     return contacts
   } catch (error) {
     console.error(error)
@@ -22,9 +20,7 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   try {
-    const deletedContact = await Contacts.findByIdAndDelete({
-      _id: contactId,
-    })
+    const deletedContact = await Contacts.findByIdAndDelete(contactId)
 
     return deletedContact
   } catch (error) {
@@ -43,7 +39,7 @@ const addContact = async (body) => {
 const updateContact = async (contactId, body) => {
   try {
     const updatedContact = await Contacts.findByIdAndUpdate(
-      { _id: contactId },
+      contactId,
       { ...body },
       { new: true }
     )
@@ -56,7 +52,7 @@ const updateContact = async (contactId, body) => {
 const updateStatusContact = async (contactId, body) => {
   try {
     const updatedContact = await Contacts.findByIdAndUpdate(
-      { _id: contactId },
+      contactId,
       { ...body },
       { new: true }
     )
