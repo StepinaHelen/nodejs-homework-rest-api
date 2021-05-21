@@ -55,8 +55,24 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   try {
-    const data = await updateToken(id, null)
-    return data
+    await Users.updateToken(req.user.id, null)
+    return res.status(HttpCode.NO_CONTENT).json({
+      status: '204 No Content',
+    })
+  } catch (e) {
+    next(e)
+  }
+}
+
+const current = async (req, res, next) => {
+  try {
+    const user = await Users.current(req.user.token)
+    const { email, subscription } = user
+    return res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: { email, subscription },
+    })
   } catch (e) {
     next(e)
   }
@@ -66,4 +82,5 @@ module.exports = {
   reg,
   login,
   logout,
+  current,
 }
