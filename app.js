@@ -1,6 +1,7 @@
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
+const path = require('path')
 const boolParser = require('express-query-boolean')
 const helmet = require('helmet')
 const { HttpCode } = require('./helpers/constants')
@@ -14,6 +15,8 @@ const app = express()
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(helmet())
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use(limiter)
 app.use(logger(formatsLogger))
