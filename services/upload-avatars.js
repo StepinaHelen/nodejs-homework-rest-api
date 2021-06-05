@@ -1,7 +1,7 @@
 const Jimp = require('jimp')
 const path = require('path')
 const fs = require('fs/promises')
-// const fs = require('fs').promises
+
 const createFolderIsNotExist = require('../helpers/create-dir')
 class Upload {
   constructor(AVATARS_OF_USERS) {

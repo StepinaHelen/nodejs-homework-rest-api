@@ -23,8 +23,11 @@ const current = async (token) => {
   const user = await User.findOne({ token })
   return user
 }
-const updateAvatar = async (id, avatarURL) => {
-  const updateAvatar = await User.updateOne({ _id: id }, { avatarURL })
+const updateAvatar = async (id, avatarURL, userIdImg = null) => {
+  const updateAvatar = await User.updateOne(
+    { _id: id },
+    { avatarURL, userIdImg }
+  )
   return updateAvatar
 }
 
