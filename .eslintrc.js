@@ -1,13 +1,13 @@
 module.exports = {
-    env: {
-        commonjs: true,
-        es2021: true,
-        node: true,
-    },
-    extends: ['standard', 'plugin:json/recommended', 'prettier'],
-    parserOptions: {
-        ecmaVersion: 12,
-    },
-    rules: {},
+  env: {
+    commonjs: true,
+    es2021: true,
+    node: true,
+    'jest/globals': true,
+  },
+  extends: ['standard', 'plugin:json/recommended', 'prettier'],
+  parserOptions: {
+    ecmaVersion: 12,
+  },
+  rules: {},
 }
-// npx mrm lint-staged
