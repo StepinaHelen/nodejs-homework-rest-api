@@ -1,18 +1,18 @@
 const newContact = {
   name: 'Alex',
-  email: 'contact@gmail.com',
+  email: 'contactdddd@gmail.com',
   phone: '555555555555',
 }
 
 const newUser = {
   name: 'Lena',
-  email: 'lena1994@gmail.com',
+  email: 'lenaffff1994@gmail.com',
   password: '123456',
 }
 
 const newTestUser = {
   name: 'Alex',
-  email: 'alex1990@gmail.com',
+  email: 'alex1990ddddd@gmail.com',
   password: '123456',
 }
 
