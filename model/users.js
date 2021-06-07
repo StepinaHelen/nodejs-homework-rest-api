@@ -23,6 +23,13 @@ const current = async (token) => {
   const user = await User.findOne({ token })
   return user
 }
+const updateAvatar = async (id, avatarURL, userIdImg = null) => {
+  const updateAvatar = await User.updateOne(
+    { _id: id },
+    { avatarURL, userIdImg }
+  )
+  return updateAvatar
+}
 
 module.exports = {
   findById,
@@ -30,4 +37,5 @@ module.exports = {
   findByEmail,
   updateToken,
   current,
+  updateAvatar,
 }

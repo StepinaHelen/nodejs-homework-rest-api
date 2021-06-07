@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const { HttpCode } = require('../helpers/constants')
+const mongoose = require('mongoose')
 
 const schemaContacts = Joi.object({
   name: Joi.string().min(3).max(30).required(),
@@ -53,4 +54,14 @@ module.exports.validateUpdateContact = async (req, res, next) => {
 
 module.exports.validateUpdateStatus = async (req, res, next) => {
   return await validate(updateschemaStatusContacts, req.body, next)
+}
+
+module.exports.validateObjectId = async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next({
+      status: 400,
+      message: 'ObjesctId is not valid',
+    })
+  }
+  next()
 }

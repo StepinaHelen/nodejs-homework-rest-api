@@ -99,15 +99,14 @@ const updateSomeContact = async (req, res, next) => {
         code: HttpCode.OK,
         data: { contact },
       })
-    } else {
-      return next({
-        status: HttpCode.NOT_FOUND,
-        message: 'Not found',
-        data: 'Not found',
-      })
     }
-  } catch (e) {
-    next(e)
+    return res.status(404).json({
+      status: 'error',
+      code: 404,
+      data: 'Not found',
+    })
+  } catch (error) {
+    next(error)
   }
 }
 
