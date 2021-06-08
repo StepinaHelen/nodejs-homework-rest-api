@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
+const { v4: uuidv4 } = require('uuid')
 const bcrypt = require('bcryptjs')
 const { Subscription } = require('../helpers/constants')
 const SALT_FACTOR = 7
@@ -43,6 +44,15 @@ const userSchema = new Schema(
     userIdImg: {
       type: String,
       default: null,
+    },
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verifyToken: {
+      type: String,
+      required: [true, 'Verify token is required'],
+      default: uuidv4(),
     },
   },
 
